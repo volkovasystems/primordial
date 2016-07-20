@@ -71,9 +71,9 @@ var primordial = function primordial( option ){
 
 	if( !_package ){
 		Fatal( "no package given" )
-			.prompt( "process exiting" );
+			.remind( "process exiting" );
 
-		process.exit( 0 );
+		return;
 	}
 
 	if( !_package.homepage ){
@@ -163,9 +163,9 @@ var primordial = function primordial( option ){
 		var localDirectory = path.resolve( process.cwd( ), "@local-directory"
 			.replace( "@local-directory", _package.local.directory ) );
 
-		var localOption = path.resolve( localDirectory, "option.js" );
+		var localOption = path.resolve( localDirectory, "_option.js" );
 
-		var localConstant = path.resolve( localDirectory, "constant.js" );
+		var localConstant = path.resolve( localDirectory, "_constant.js" );
 
 		var templateOption = path.resolve( templateDirectory, "_option.js" );
 
@@ -175,9 +175,9 @@ var primordial = function primordial( option ){
 			fs.existsSync( localConstant ) )
 		{
 			Prompt( "local configuration has been initialized" )
-				.prompt( "process exiting" );
+				.remind( "process exiting" );
 
-			process.exit( 0 );
+			return;
 
 		}else if( fs.existsSync( templateOption ) &&
 			fs.existsSync( templateConstant ) )
@@ -192,23 +192,23 @@ var primordial = function primordial( option ){
 			Warning( "local template configuraton does not exists" )
 				.prompt( "process exiting" );
 
-			process.exit( 0 );
+			return;
 		}
 
 	}else if( argv.command == "run" ){
 		if( !( _package.load || { } ).file ){
 			Fatal( "no load file specified" )
-				.prompt( "process exiting" );
+				.remind( "process exiting" );
 
-			process.exit( 0 );
+			return;
 		}
 
 		var loadFile = path.resolve( process.cwd( ), _package.load.file );
 		if( !fs.existsSync( loadFile ) ){
 			Fatal( "load file does not exists", loadFile )
-				.prompt( "process exiting" );
+				.remind( "process exiting" );
 
-			process.exit( 0 );
+			return;
 		}
 
 		argv[ argv.level ] = true;
