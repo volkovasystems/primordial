@@ -1,0 +1,29 @@
+{
+  "name": "primordial",
+  "version": "0.0.0",
+  "description": "Default index for starting server based on standard practice.",
+  "main": "primordial.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/volkovasystems/primordial.git"
+  },
+  "keywords": [
+    "index",
+    "loader",
+    "boot",
+    "primordial"
+  ],
+  "author": "Richeve S. Bebedor <richeve.bebedor@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/volkovasystems/primordial/issues"
+  },
+  "homepage": "https://github.com/volkovasystems/primordial#readme",
+  "dependencies": {
+    "olivant": "^0.1.1",
+    "yargs": "^4.8.1"
+  }
+}
