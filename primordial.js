@@ -29,7 +29,7 @@
 
 	@module-configuration:
 		{
-			"_package": "primordial",
+			"package": "primordial",
 			"path": "primordial/primordial.js",
 			"file": "primordial.js",
 			"module": "primordial",
@@ -48,7 +48,7 @@
 	@include:
 		{
 			"child": "child_process",
-			"fs": "fs",
+			"fs": "node-fs-extra",
 			"path": "path",
 			"olivant": "olivant",
 			"util": "util",
@@ -58,7 +58,7 @@
 */
 
 var child = require( "child_process" );
-var fs = require( "fs" );
+var fs = require( "fs-extra" );
 var path 	= require( "path" );
 var olivant = require( "olivant" );
 var util = require( "util" );
@@ -142,7 +142,6 @@ var primordial = function primordial( option ){
 				.remind( "using default local template directory path" )
 				.prompt( );
 
-		}else{
 			_package.local = _package.local || { };
 
 			_package.local.template = "server/_local";
@@ -153,7 +152,6 @@ var primordial = function primordial( option ){
 				.remind( "using default local directory path" )
 				.prompt( );
 
-		}else{
 			_package.local = _package.local || { };
 
 			_package.local.directory = "server/local";
@@ -169,9 +167,9 @@ var primordial = function primordial( option ){
 
 		var localConstant = path.resolve( localDirectory, "constant.js" );
 
-		var templateOption = path.resolve( templateDirectory, "option.js" );
+		var templateOption = path.resolve( templateDirectory, "_option.js" );
 
-		var templateConstant = path.resolve( templateDirectory, "constant.js" );
+		var templateConstant = path.resolve( templateDirectory, "_constant.js" );
 
 		if( fs.existsSync( localOption ) &&
 			fs.existsSync( localConstant ) )
