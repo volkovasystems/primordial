@@ -67,7 +67,7 @@ var yargs = require( "yargs" );
 var primordial = function primordial( option ){
 	option = option || { };
 
-	var __package = option._package;
+	var _package = option._package;
 
 	if( !_package ){
 		Fatal( "no _package given" )
