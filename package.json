@@ -1,6 +1,6 @@
 {
   "name": "primordial",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Default index for starting server based on standard practice.",
   "main": "primordial.js",
   "scripts": {
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/volkovasystems/primordial#readme",
   "dependencies": {
-    "node-fs-extra": "^0.8.1",
+    "fs-extra": "^0.30.0",
     "olivant": "^0.1.2",
     "yargs": "^4.8.1"
   }

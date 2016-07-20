@@ -48,7 +48,7 @@
 	@include:
 		{
 			"child": "child_process",
-			"fs": "node-fs-extra",
+			"fs": "fs-extra",
 			"path": "path",
 			"olivant": "olivant",
 			"util": "util",
