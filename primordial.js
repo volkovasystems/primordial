@@ -67,10 +67,10 @@ var yargs = require( "yargs" );
 var primordial = function primordial( option ){
 	option = option || { };
 
-	var _package = option._package;
+	var _package = option.package;
 
 	if( !_package ){
-		Fatal( "no _package given" )
+		Fatal( "no package given" )
 			.prompt( "process exiting" );
 
 		process.exit( 0 );
@@ -176,8 +176,6 @@ var primordial = function primordial( option ){
 		if( fs.existsSync( localOption ) &&
 			fs.existsSync( localConstant ) )
 		{
-			console.log( "local configuration has been initialized" );
-
 			Prompt( "local configuration has been initialized" )
 				.prompt( "process exiting" );
 
