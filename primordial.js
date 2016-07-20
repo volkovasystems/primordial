@@ -29,7 +29,7 @@
 
 	@module-configuration:
 		{
-			"package": "primordial",
+			"_package": "primordial",
 			"path": "primordial/primordial.js",
 			"file": "primordial.js",
 			"module": "primordial",
@@ -67,29 +67,29 @@ var yargs = require( "yargs" );
 var primordial = function primordial( option ){
 	option = option || { };
 
-	var package = option.package;
+	var __package = option._package;
 
-	if( !package ){
-		Fatal( "no package given" )
+	if( !_package ){
+		Fatal( "no _package given" )
 			.prompt( "process exiting" );
 
 		process.exit( 0 );
 	}
 
-	if( !package.homepage ){
+	if( !_package.homepage ){
 		Warning( "no home page specified" ).prompt( );
 	}
 
-	if( !package.shell ){
+	if( !_package.shell ){
 		Warning( "no shell command specified" ).prompt( );
 	}
 
 	var argv = yargs
 		.epilogue( "For more information go to, @help-site"
-			.replace( "@help-site", package.homepage ) )
+			.replace( "@help-site", _package.homepage ) )
 
 		.usage( "Usage: @shell-command <command> <type> <level> [option]"
-	 		.replace( "@shell-command", package.shell ) )
+	 		.replace( "@shell-command", _package.shell ) )
 
 		.command( "run <type> <level>", "Run specific app type on specific deployment level." )
 
@@ -127,7 +127,7 @@ var primordial = function primordial( option ){
 		.help( "help" )
 
 		.version( function version( ){
-			return package.version;
+			return _package.version;
 		} )
 
 		.wrap( null )
@@ -137,33 +137,33 @@ var primordial = function primordial( option ){
 	argv.command = argv._[ 0 ];
 
 	if( argv.command == "initialize" ){
-		if( !( package.local || { } ).template ){
+		if( !( _package.local || { } ).template ){
 			Warning( "local template directory not specified" )
 				.remind( "using default local template directory path" )
 				.prompt( );
 
 		}else{
-			package.local = package.local || { };
+			_package.local = _package.local || { };
 
-			package.local.template = "server/_local";
+			_package.local.template = "server/_local";
 		}
 
-		if( !( package.local || { } ).directory ){
+		if( !( _package.local || { } ).directory ){
 			Warning( "local directory not specified" )
 				.remind( "using default local directory path" )
 				.prompt( );
 
 		}else{
-			package.local = package.local || { };
+			_package.local = _package.local || { };
 
-			package.local.directory = "server/local";
+			_package.local.directory = "server/local";
 		}
 
 		var templateDirectory = path.resolve( process.cwd( ), "@local-template"
-			.replace( "@local-template", package.local.template ) );
+			.replace( "@local-template", _package.local.template ) );
 
 		var localDirectory = path.resolve( process.cwd( ), "@local-directory"
-			.replace( "@local-directory", package.local.directory ) );
+			.replace( "@local-directory", _package.local.directory ) );
 
 		var localOption = path.resolve( localDirectory, "option.js" );
 
@@ -200,14 +200,14 @@ var primordial = function primordial( option ){
 		}
 
 	}else if( argv.command == "run" ){
-		if( !( package.load || { } ).file ){
+		if( !( _package.load || { } ).file ){
 			Fatal( "no load file specified" )
 				.prompt( "process exiting" );
 
 			process.exit( 0 );
 		}
 
-		var loadFile = path.resolve( process.cwd( ), package.load.file );
+		var loadFile = path.resolve( process.cwd( ), _package.load.file );
 		if( !fs.existsSync( loadFile ) ){
 			Fatal( "load file does not exists", loadFile )
 				.prompt( "process exiting" );
