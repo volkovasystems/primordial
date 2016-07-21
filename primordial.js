@@ -99,6 +99,7 @@ var primordial = function primordial( option ){
 			"alias": "t",
 			"describe": "Server or client type application",
 			"type": "string",
+			"default": "server",
 			"choices": [
 				"server",
 				"client"
@@ -109,6 +110,7 @@ var primordial = function primordial( option ){
 			"alias": "l",
 			"describe": "Level of deployment",
 			"type": "string",
+			"default": "local",
 			"choices": [
 				"local",
 				"staging",
@@ -188,6 +190,9 @@ var primordial = function primordial( option ){
 
 			fs.copySync( templateDirectory, localDirectory );
 
+			Prompt( "local configuration initialized" )
+				.remind( "process exiting" );
+
 		}else{
 			Warning( "local template configuraton does not exists" )
 				.prompt( "process exiting" );
@@ -195,7 +200,9 @@ var primordial = function primordial( option ){
 			return;
 		}
 
-	}else if( argv.command == "run" ){
+	}else if( argv.command == "run" &&
+		argv.type == "server" )
+	{
 		if( !( _package.load || { } ).file ){
 			Fatal( "no load file specified" )
 				.remind( "process exiting" );
@@ -214,7 +221,7 @@ var primordial = function primordial( option ){
 		argv[ argv.level ] = true;
 
 		var task = child.spawn( "node", [ loadFile,
-			"--@level".replace( "@level", argv.level )
+			"--@level".replace( "@level", argv.level || "local" )
 		] );
 
 		task.stdout.on( "data", function onPrompt( ){
@@ -228,6 +235,8 @@ var primordial = function primordial( option ){
 		task.on( "close", function onClose( ){
 			Prompt( "node process exited" );
 		} );
+
+		Prompt( "node server process started", argv.level );
 	}
 };
 
