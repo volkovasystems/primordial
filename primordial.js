@@ -224,12 +224,12 @@ var primordial = function primordial( option ){
 			"--@level".replace( "@level", argv.level || "local" )
 		] );
 
-		task.stdout.on( "data", function onPrompt( ){
-			Prompt( arguments );
+		task.stdout.on( "data", function onPrompt( data ){
+			Prompt( data.toString( "utf8" ) );
 		} );
 
-		task.stderr.on( "data", function onIssue( ){
-			Issue( arguments ).prompt( );
+		task.stderr.on( "data", function onIssue( data ){
+			Issue( data.toString( "utf8" ) ).prompt( );
 		} );
 
 		task.on( "close", function onClose( ){
