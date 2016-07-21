@@ -1,6 +1,6 @@
 {
   "name": "primordial",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Default index for starting server based on standard practice.",
   "main": "primordial.js",
   "scripts": {

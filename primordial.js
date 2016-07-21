@@ -220,20 +220,13 @@ var primordial = function primordial( option ){
 
 		argv[ argv.level ] = true;
 
-		var task = child.spawn( "node", [ loadFile,
+		var command = [ "node", loadFile,
 			"--@level".replace( "@level", argv.level || "local" )
-		] );
+		].join( " " );
 
-		task.stdout.on( "data", function onPrompt( data ){
-			Prompt( data.toString( "utf8" ) );
-		} );
-
-		task.stderr.on( "data", function onIssue( data ){
-			Issue( data.toString( "utf8" ) ).prompt( );
-		} );
-
-		task.on( "close", function onClose( ){
-			Prompt( "node process exited" );
+		child.execSync( command, {
+			"stdio": "inherit",
+			"cwd": process.cwd( )
 		} );
 
 		Prompt( "node server process started", argv.level );
