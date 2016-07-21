@@ -213,11 +213,21 @@ var primordial = function primordial( option ){
 
 		argv[ argv.level ] = true;
 
-		child.execSync( "node @load-file".replace( "@load-file", loadFile ),
-			{
-				"stdio": "inherit",
-				"cwd": process.cwd( )
-			} );
+		var task = child.spawn( "node", [ loadFile,
+			"--@level".replace( "@level", argv.level )
+		] );
+
+		task.stdout.on( "data", function onPrompt( ){
+			Prompt( arguments );
+		} );
+
+		task.stderr.on( "data", function onIssue( ){
+			Issue( arguments ).prompt( );
+		} );
+
+		task.on( "close", function onClose( ){
+			Prompt( "node process exited" );
+		} );
 	}
 };
 
