@@ -91,7 +91,7 @@ var primordial = function primordial( option ){
 		.usage( "Usage: @shell-command <command> <type> <level> [option]"
 	 		.replace( "@shell-command", _package.shell ) )
 
-		.command( "run <type> <level>", "Run specific app type on specific deployment level." )
+		.command( "run <type> <level> [service]", "Run specific app type on specific deployment level." )
 
 		.command( "initialize", "Initialize the project." )
 
@@ -118,6 +118,12 @@ var primordial = function primordial( option ){
 			]
 		} )
 
+		.option( "service", {
+			"alias": "s",
+			"describe": "Name of service to deploy",
+			"type": "string"
+		} )
+
 		.example( "$0 initialize", "Install necessary dependencies." )
 
 		.example( "$0 run server local", "Run the server application on local mode." )
@@ -125,6 +131,8 @@ var primordial = function primordial( option ){
 		.example( "$0 run server staging", "Run server application on staging mode." )
 
 		.example( "$0 run server production", "Run server application on production mode." )
+
+		.example( "$0 run server production static", "Run static server application on production mode." )
 
 		.help( "help" )
 
@@ -224,12 +232,21 @@ var primordial = function primordial( option ){
 			"--@level".replace( "@level", argv.level || "local" )
 		].join( " " );
 
-		child.execSync( command, {
-			"stdio": "inherit",
-			"cwd": process.cwd( )
-		} );
+		process.env.NODE_ENV = argv.level;
+
+		if( argv.service ){
+			command = [ command,
+				"--service=@service"
+				.replace( "@service", argv.service ) ].join( " " );
+		}
 
 		Prompt( "node server process started", argv.level );
+
+		child.execSync( command, {
+			"stdio": "inherit",
+			"cwd": process.cwd( ),
+			"env": process.env
+		} );
 	}
 };
 
