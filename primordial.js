@@ -49,6 +49,7 @@
 		{
 			"child": "child_process",
 			"fs": "fs-extra",
+			"kept": "kept",
 			"path": "path",
 			"olivant": "olivant",
 			"util": "util",
@@ -59,6 +60,7 @@
 
 var child = require( "child_process" );
 var fs = require( "fs-extra" );
+var kept = require( "kept" );
 var path 	= require( "path" );
 var olivant = require( "olivant" );
 var util = require( "util" );
@@ -77,11 +79,15 @@ var primordial = function primordial( option ){
 	}
 
 	if( !_package.homepage ){
-		Warning( "no home page specified" ).prompt( );
+		Warning( "no home page specified" )
+			.silence( )
+			.prompt( );
 	}
 
 	if( !_package.shell ){
-		Warning( "no shell command specified" ).prompt( );
+		Warning( "no shell command specified" )
+			.silence( )
+			.prompt( );
 	}
 
 	var argv = yargs
@@ -150,6 +156,7 @@ var primordial = function primordial( option ){
 		if( !( _package.local || { } ).template ){
 			Warning( "local template directory not specified" )
 				.remind( "using default local template directory path" )
+				.silence( )
 				.prompt( );
 
 			_package.local = _package.local || { };
@@ -160,6 +167,7 @@ var primordial = function primordial( option ){
 		if( !( _package.local || { } ).directory ){
 			Warning( "local directory not specified" )
 				.remind( "using default local directory path" )
+				.silence( )
 				.prompt( );
 
 			_package.local = _package.local || { };
@@ -181,18 +189,18 @@ var primordial = function primordial( option ){
 
 		var templateConstant = path.resolve( templateDirectory, "_constant.js" );
 
-		if( fs.existsSync( localOption ) &&
-			fs.existsSync( localConstant ) )
+		if( kept( localOption ) &&
+			kept( localConstant ) )
 		{
 			Prompt( "local configuration has been initialized" )
 				.remind( "process exiting" );
 
 			return;
 
-		}else if( fs.existsSync( templateOption ) &&
-			fs.existsSync( templateConstant ) )
+		}else if( kept( templateOption ) &&
+			kept( templateConstant ) )
 		{
-			if( !fs.existsSync( localDirectory ) ){
+			if( !kept( localDirectory ) ){
 				fs.mkdirpSync( localDirectory );
 			}
 
@@ -219,7 +227,7 @@ var primordial = function primordial( option ){
 		}
 
 		var loadFile = path.resolve( process.cwd( ), _package.load.file );
-		if( !fs.existsSync( loadFile ) ){
+		if( !kept( loadFile ) ){
 			Fatal( "load file does not exists", loadFile )
 				.remind( "process exiting" );
 
@@ -242,11 +250,18 @@ var primordial = function primordial( option ){
 
 		Prompt( "node server process started", argv.level );
 
-		child.execSync( command, {
-			"stdio": "inherit",
-			"cwd": process.cwd( ),
-			"env": process.env
-		} );
+		try{
+			child.execSync( command, {
+				"stdio": "inherit",
+				"cwd": process.cwd( ),
+				"env": process.env
+			} );
+
+		}catch( error ){
+			Issue( "error encountered running application", error )
+				.silence( )
+				.prompt( );
+		}
 	}
 };
 
