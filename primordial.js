@@ -51,7 +51,7 @@
 			"fs": "fs-extra",
 			"kept": "kept",
 			"path": "path",
-			"olivant": "olivant",
+			"Olivant": "olivant",
 			"util": "util",
 			"yargs": "yargs"
 		}
@@ -62,7 +62,7 @@ var child = require( "child_process" );
 var fs = require( "fs-extra" );
 var kept = require( "kept" );
 var path 	= require( "path" );
-var olivant = require( "olivant" );
+var Olivant = require( "olivant" );
 var util = require( "util" );
 var yargs = require( "yargs" );
 
