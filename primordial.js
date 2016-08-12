@@ -189,18 +189,18 @@ var primordial = function primordial( option ){
 
 		var templateConstant = path.resolve( templateDirectory, "_constant.js" );
 
-		if( kept( localOption ) &&
-			kept( localConstant ) )
+		if( kept( localOption, true ) &&
+			kept( localConstant, true ) )
 		{
 			Prompt( "local configuration has been initialized" )
 				.remind( "process exiting" );
 
 			return;
 
-		}else if( kept( templateOption ) &&
-			kept( templateConstant ) )
+		}else if( kept( templateOption, true ) &&
+			kept( templateConstant, true ) )
 		{
-			if( !kept( localDirectory ) ){
+			if( !kept( localDirectory, true ) ){
 				fs.mkdirpSync( localDirectory );
 			}
 
@@ -227,7 +227,7 @@ var primordial = function primordial( option ){
 		}
 
 		var loadFile = path.resolve( process.cwd( ), _package.load.file );
-		if( !kept( loadFile ) ){
+		if( !kept( loadFile, true ) ){
 			Fatal( "load file does not exists", loadFile )
 				.remind( "process exiting" );
 
