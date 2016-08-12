@@ -236,7 +236,13 @@ var primordial = function primordial( option ){
 
 		argv[ argv.level ] = true;
 
-		var command = [ "node", loadFile,
+		var nodeEngine = "node";
+		if( _package.nodeVersion ){
+			nodeEngine = "n use @node-version && node"
+				.replace( "@node-version", _package.nodeVersion );
+		}
+
+		var command = [ nodeEngine, loadFile,
 			"--@level".replace( "@level", argv.level || "local" )
 		].join( " " );
 

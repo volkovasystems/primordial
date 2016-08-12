@@ -1,9 +1,10 @@
 {
   "name": "primordial",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Default index for starting server based on standard practice.",
   "main": "primordial.js",
   "scripts": {
+	"preinstall": "npm install n -g",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
