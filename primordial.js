@@ -238,7 +238,7 @@ var primordial = function primordial( option ){
 
 		var nodeEngine = "node";
 		if( _package.nodeVersion ){
-			nodeEngine = "n use @node-version && node"
+			nodeEngine = "n use @node-version"
 				.replace( "@node-version", _package.nodeVersion );
 		}
 
