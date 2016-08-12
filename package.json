@@ -1,10 +1,10 @@
 {
   "name": "primordial",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Default index for starting server based on standard practice.",
   "main": "primordial.js",
   "scripts": {
-	"preinstall": "npm install n -g",
+    "preinstall": "npm install n -g",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,7 +26,7 @@
   "dependencies": {
     "fs-extra": "^0.30.0",
     "kept": "^0.1.0",
-    "olivant": "^0.6.4",
+    "olivant": "^0.6.5",
     "yargs": "^4.8.1"
   }
 }
