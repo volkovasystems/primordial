@@ -37,12 +37,12 @@
 			"eMail": "richeve.bebedor@gmail.com",
 			"repository": "https://github.com/volkovasystems/primordial.git",
 			"test": "primordial-test.js",
-			"global": true,
-			"class": true
+			"global": true
 		}
 	@end-module-configuration
 
 	@module-documentation:
+		Default index for starting server based on standard practice.
 	@end-module-documentation
 
 	@include:
@@ -69,35 +69,34 @@ var yargs = require( "yargs" );
 var primordial = function primordial( option ){
 	option = option || { };
 
-	var _package = option.package;
+	var box = option.package;
 
-	if( !_package ){
+	if( !box ){
 		Fatal( "no package given" )
 			.remind( "process exiting" );
 
 		return;
 	}
 
-	if( !_package.homepage ){
+	if( !box.homepage ){
 		Warning( "no home page specified" )
 			.silence( )
 			.prompt( );
 	}
 
-	if( !_package.shell ){
+	if( !box.shell ){
 		Warning( "no shell command specified" )
 			.silence( )
 			.prompt( );
 	}
 
 	var argv = yargs
-		.epilogue( "For more information go to, @help-site"
-			.replace( "@help-site", _package.homepage ) )
+		.epilogue( "For more information go to, ${ box.homepage }" )
 
-		.usage( "Usage: @shell-command <command> <type> <level> [option]"
-	 		.replace( "@shell-command", _package.shell ) )
+		.usage( "Usage: ${ box.shell } <command> <type> <level> [option]" )
 
-		.command( "run <type> <level> [service]", "Run specific app type on specific deployment level." )
+		.command( "run <type> <level> [service]",
+			"Run specific app type on specific deployment level." )
 
 		.command( "initialize", "Initialize the project." )
 
@@ -130,20 +129,25 @@ var primordial = function primordial( option ){
 			"type": "string"
 		} )
 
-		.example( "$0 initialize", "Install necessary dependencies." )
+		.example( "$0 initialize",
+			"Install necessary dependencies." )
 
-		.example( "$0 run server local", "Run the server application on local mode." )
+		.example( "$0 run server local",
+			"Run the server application on local mode." )
 
-		.example( "$0 run server staging", "Run server application on staging mode." )
+		.example( "$0 run server staging",
+			"Run server application on staging mode." )
 
-		.example( "$0 run server production", "Run server application on production mode." )
+		.example( "$0 run server production",
+			"Run server application on production mode." )
 
-		.example( "$0 run server production static", "Run static server application on production mode." )
+		.example( "$0 run server production static",
+			"Run static server application on production mode." )
 
 		.help( "help" )
 
 		.version( function version( ){
-			return _package.version;
+			return box.version;
 		} )
 
 		.wrap( null )
@@ -153,33 +157,31 @@ var primordial = function primordial( option ){
 	argv.command = argv._[ 0 ];
 
 	if( argv.command == "initialize" ){
-		if( !( _package.local || { } ).template ){
+		if( !( box.local || { } ).template ){
 			Warning( "local template directory not specified" )
 				.remind( "using default local template directory path" )
 				.silence( )
 				.prompt( );
 
-			_package.local = _package.local || { };
+			box.local = box.local || { };
 
-			_package.local.template = "server/_local";
+			box.local.template = "server/_local";
 		}
 
-		if( !( _package.local || { } ).directory ){
+		if( !( box.local || { } ).directory ){
 			Warning( "local directory not specified" )
 				.remind( "using default local directory path" )
 				.silence( )
 				.prompt( );
 
-			_package.local = _package.local || { };
+			box.local = box.local || { };
 
-			_package.local.directory = "server/local";
+			box.local.directory = "server/local";
 		}
 
-		var templateDirectory = path.resolve( process.cwd( ), "@local-template"
-			.replace( "@local-template", _package.local.template ) );
+		var templateDirectory = path.resolve( process.cwd( ), "${ box.local.template }" );
 
-		var localDirectory = path.resolve( process.cwd( ), "@local-directory"
-			.replace( "@local-directory", _package.local.directory ) );
+		var localDirectory = path.resolve( process.cwd( ), "${ box.local.directory }" );
 
 		var localOption = path.resolve( localDirectory, "_option.js" );
 
@@ -219,14 +221,14 @@ var primordial = function primordial( option ){
 	}else if( argv.command == "run" &&
 		argv.type == "server" )
 	{
-		if( !( _package.load || { } ).file ){
+		if( !( box.load || { } ).file ){
 			Fatal( "no load file specified" )
 				.remind( "process exiting" );
 
 			return;
 		}
 
-		var loadFile = path.resolve( process.cwd( ), _package.load.file );
+		var loadFile = path.resolve( process.cwd( ), box.load.file );
 		if( !kept( loadFile, true ) ){
 			Fatal( "load file does not exists", loadFile )
 				.remind( "process exiting" );
@@ -237,21 +239,16 @@ var primordial = function primordial( option ){
 		argv[ argv.level ] = true;
 
 		var nodeEngine = "node";
-		if( _package.nodeVersion ){
-			nodeEngine = "n use @node-version"
-				.replace( "@node-version", _package.nodeVersion );
+		if( box.nodeVersion ){
+			nodeEngine = `n use ${ box.nodeVersion }`;
 		}
 
-		var command = [ nodeEngine, loadFile,
-			"--@level".replace( "@level", argv.level || "local" )
-		].join( " " );
+		var command = `${ nodeEngine } ${ loadFile } --${ argv.level || "local" }`;
 
 		process.env.NODE_ENV = argv.level;
 
 		if( argv.service ){
-			command = [ command,
-				"--service=@service"
-				.replace( "@service", argv.service ) ].join( " " );
+			command = `${ command } --service=${ argv.service }`;
 		}
 
 		Prompt( "node server process started", argv.level );
