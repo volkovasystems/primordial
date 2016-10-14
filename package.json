@@ -1,6 +1,6 @@
 {
   "name": "primordial",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "Default index for starting server based on standard practice.",
   "main": "primordial.js",
   "scripts": {
@@ -26,7 +26,7 @@
   "dependencies": {
     "fs-extra": "^0.30.0",
     "kept": "^0.1.2",
-    "olivant": "^0.7.19",
-    "yargs": "^5.0.0"
+    "olivant": "^0.8.7",
+    "yargs": "^6.0.0"
   }
 }
