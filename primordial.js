@@ -5,7 +5,7 @@
 		The MIT License (MIT)
 		@mit-license
 
-		Copyright (@c) 2016 Richeve Siodina Bebedor
+		Copyright (@c) 2017 Richeve Siodina Bebedor
 		@email: richeve.bebedor@gmail.com
 
 		Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -34,6 +34,9 @@
 			"file": "primordial.js",
 			"module": "primordial",
 			"author": "Richeve S. Bebedor",
+			"contributors": [
+				"John Lenon Maghanoy <johnlenonmaghanoy@gmail.com>"
+			],
 			"eMail": "richeve.bebedor@gmail.com",
 			"repository": "https://github.com/volkovasystems/primordial.git",
 			"test": "primordial-test.js",
@@ -58,39 +61,40 @@
 	@end-include
 */
 
-var child = require( "child_process" );
-var fs = require( "fs-extra" );
-var kept = require( "kept" );
-var path 	= require( "path" );
-var Olivant = require( "olivant" );
-var util = require( "util" );
-var yargs = require( "yargs" );
+const child = require( "child_process" );
+const falze = require( "falze" );
+const fs = require( "fs-extra" );
+const kept = require( "kept" );
+const path 	= require( "path" );
+const Olivant = require( "olivant" );
+const util = require( "util" );
+const yargs = require( "yargs" );
 
-var primordial = function primordial( option ){
+const primordial = function primordial( option ){
 	option = option || { };
 
-	var box = option.package;
+	let box = option.package;
 
-	if( !box ){
+	if( falze( box ) ){
 		Fatal( "no package given" )
 			.remind( "process exiting" );
 
 		return;
 	}
 
-	if( !box.homepage ){
+	if( falze( box.homepage ) ){
 		Warning( "no home page specified" )
 			.silence( )
 			.prompt( );
 	}
 
-	if( !box.shell ){
+	if( falze( box.shell ) ){
 		Warning( "no shell command specified" )
 			.silence( )
 			.prompt( );
 	}
 
-	var argv = yargs
+	let argv = yargs
 		.epilogue( "For more information go to, ${ box.homepage }" )
 
 		.usage( "Usage: ${ box.shell } <command> <type> <level> [option]" )
@@ -179,17 +183,17 @@ var primordial = function primordial( option ){
 			box.local.directory = "server/local";
 		}
 
-		var templateDirectory = path.resolve( process.cwd( ), "${ box.local.template }" );
+		let templateDirectory = path.resolve( process.cwd( ), "${ box.local.template }" );
 
-		var localDirectory = path.resolve( process.cwd( ), "${ box.local.directory }" );
+		let localDirectory = path.resolve( process.cwd( ), "${ box.local.directory }" );
 
-		var localOption = path.resolve( localDirectory, "_option.js" );
+		let localOption = path.resolve( localDirectory, "_option.js" );
 
-		var localConstant = path.resolve( localDirectory, "_constant.js" );
+		let localConstant = path.resolve( localDirectory, "_constant.js" );
 
-		var templateOption = path.resolve( templateDirectory, "_option.js" );
+		let templateOption = path.resolve( templateDirectory, "_option.js" );
 
-		var templateConstant = path.resolve( templateDirectory, "_constant.js" );
+		let templateConstant = path.resolve( templateDirectory, "_constant.js" );
 
 		if( kept( localOption, true ) &&
 			kept( localConstant, true ) )
@@ -228,7 +232,7 @@ var primordial = function primordial( option ){
 			return;
 		}
 
-		var loadFile = path.resolve( process.cwd( ), box.load.file );
+		let loadFile = path.resolve( process.cwd( ), box.load.file );
 		if( !kept( loadFile, true ) ){
 			Fatal( "load file does not exists", loadFile )
 				.remind( "process exiting" );
@@ -238,12 +242,12 @@ var primordial = function primordial( option ){
 
 		argv[ argv.level ] = true;
 
-		var nodeEngine = "node";
-		if( box.nodeVersion ){
+		let nodeEngine = "node";
+		if( falze( box.nodeVersion ) ){
 			nodeEngine = `n use ${ box.nodeVersion }`;
 		}
 
-		var command = `${ nodeEngine } ${ loadFile } --${ argv.level || "local" }`;
+		let command = `${ nodeEngine } ${ loadFile } --${ argv.level || "local" }`;
 
 		process.env.NODE_ENV = argv.level;
 
