@@ -1,11 +1,10 @@
 {
   "name": "primordial",
-  "version": "0.1.16",
+  "version": "0.2.0",
   "description": "Default index for starting server based on standard practice.",
   "main": "primordial.js",
   "scripts": {
-    "preinstall": "npm install n -g",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha primordial-test.js"
   },
   "repository": {
     "type": "git",
@@ -24,9 +23,10 @@
   },
   "homepage": "https://github.com/volkovasystems/primordial#readme",
   "dependencies": {
-    "fs-extra": "^0.30.0",
-    "kept": "^0.1.2",
-    "olivant": "^0.8.7",
-    "yargs": "^6.0.0"
+    "falze": "^0.3.0",
+    "fs-extra": "^1.0.0",
+    "kept": "^0.8.0",
+    "olivant": "^0.9.0",
+    "yargs": "^6.6.0"
   }
 }
