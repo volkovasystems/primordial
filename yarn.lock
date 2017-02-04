@@ -626,9 +626,9 @@ get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
 
-glucose@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/glucose/-/glucose-0.10.0.tgz#4c85fdac64e2f244f44f81835d6fc448cecbbbe6"
+glucose@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/glucose/-/glucose-0.11.0.tgz#1e14005ddfab71bdb917d4a3df04847b34b075e0"
   dependencies:
     babel-runtime "^6.22.0"
     clazof "^0.5.0"
@@ -642,6 +642,7 @@ glucose@^0.10.0:
     stuffed "^0.4.0"
     transpher "^0.5.0"
     truly "^0.9.0"
+    truu "^0.7.0"
     zelf "^0.6.0"
 
 graceful-fs@^4.1.2, graceful-fs@^4.1.6:
@@ -1010,9 +1011,9 @@ offcache@^0.4.0:
     falze "^0.5.0"
     protype "^0.11.0"
 
-olivant@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/olivant/-/olivant-0.11.0.tgz#2c23f9aa39c8eb17384b8d8ef54d7a90554e8651"
+olivant@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/olivant/-/olivant-0.12.0.tgz#6b2ad391b3852a6ab281af45bf9b1907364d4518"
   dependencies:
     arid "^0.7.0"
     asea "^0.8.0"
@@ -1029,7 +1030,7 @@ olivant@^0.11.0:
     falze "^0.5.0"
     falzy "^0.10.0"
     filled "^0.6.0"
-    glucose "^0.10.0"
+    glucose "^0.11.0"
     harden "^0.14.0"
     heredito "^0.17.0"
     kein "^0.8.0"
