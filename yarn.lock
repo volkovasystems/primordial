@@ -139,6 +139,13 @@ builtin-modules@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
 
+calcify@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/calcify/-/calcify-0.3.0.tgz#1b2c6a19f5547b9d8c94018462c5d736457d81b3"
+  dependencies:
+    babel-runtime "^6.22.0"
+    parseon "^0.2.0"
+
 called@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/called/-/called-0.10.0.tgz#e228f8d0b8ccd59d0540a46fa969dcc2074f916c"
@@ -769,9 +776,9 @@ kein@^0.8.0:
     falzy "^0.10.0"
     protype "^0.11.0"
 
-kept@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/kept/-/kept-0.9.0.tgz#3e3cb3867ab9f21f6c1444b9cca86f53198181b9"
+kept@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/kept/-/kept-0.10.0.tgz#6d6980c366e00cb83b35fa918ea7bc85c953aee4"
   dependencies:
     depher "^0.8.0"
     falzy "^0.10.0"
@@ -867,6 +874,12 @@ kount@^0.6.0:
   dependencies:
     babel-runtime "^6.22.0"
 
+krumb@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/krumb/-/krumb-0.1.0.tgz#bfe0744ae5fb181157932be080c34628cd58257a"
+  dependencies:
+    babel-runtime "^6.22.0"
+
 kurse@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/kurse/-/kurse-0.3.0.tgz#fa6c6863090ed4a907fd7fb5d50f56748c7da2ad"
@@ -955,6 +968,12 @@ longest@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
 
+longjohn@^0.2.12:
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/longjohn/-/longjohn-0.2.12.tgz#7ca7446b083655c377e7512213dc754d52a64a7e"
+  dependencies:
+    source-map-support "0.3.2 - 1.0.0"
+
 meek@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/meek/-/meek-0.6.0.tgz#4fa9cafeb0818155916ecd44dd4bbe1a2b6e2038"
@@ -1011,9 +1030,9 @@ offcache@^0.4.0:
     falze "^0.5.0"
     protype "^0.11.0"
 
-olivant@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/olivant/-/olivant-0.12.0.tgz#6b2ad391b3852a6ab281af45bf9b1907364d4518"
+olivant@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/olivant/-/olivant-0.13.0.tgz#9638630cba41c5a4b05ef9be7cbf4bbc4c7aebc3"
   dependencies:
     arid "^0.7.0"
     asea "^0.8.0"
@@ -1034,10 +1053,11 @@ olivant@^0.12.0:
     harden "^0.14.0"
     heredito "^0.17.0"
     kein "^0.8.0"
+    longjohn "^0.2.12"
     meek "^0.6.0"
     outre "^0.8.0"
     plough "^0.9.0"
-    protype "^0.11.0"
+    protype "^0.14.0"
     raze "^0.12.0"
     redsea "^0.5.0"
     segway "^0.9.0"
@@ -1101,6 +1121,14 @@ parse-json@^2.2.0:
   dependencies:
     error-ex "^1.2.0"
 
+parseon@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/parseon/-/parseon-0.2.0.tgz#5ad3fb73099c6628146ad366f3a3d8725f50ea7c"
+  dependencies:
+    babel-runtime "^6.22.0"
+    krumb "^0.1.0"
+    protype "^0.11.0"
+
 path-exists@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/path-exists/-/path-exists-2.1.0.tgz#0feb6c64f0fc518d9a754dd5efb62c7022761f4b"
@@ -1123,6 +1151,19 @@ pedon@^0.3.0:
     harden "^0.13.0"
     protype "^0.8.0"
     shardize "^0.4.0"
+
+persy@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/persy/-/persy-0.1.0.tgz#b920f391c917dbc91e6429bd23b634172dd40a37"
+  dependencies:
+    calcify "^0.3.0"
+    falzy "^0.10.0"
+    kept "^0.10.0"
+    letgo "^0.17.0"
+    protype "^0.11.0"
+    scrivi "^0.2.0"
+    touche "^0.1.0"
+    zelf "^0.6.0"
 
 pify@^2.0.0:
   version "2.3.0"
@@ -1181,6 +1222,14 @@ proplist@^0.6.0:
 protype@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/protype/-/protype-0.11.0.tgz#52b1a68d774d83bc4a9c0671d5e392b246fb4a3d"
+  dependencies:
+    babel-runtime "^6.22.0"
+    cemento "^0.7.0"
+    harden "^0.14.0"
+
+protype@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/protype/-/protype-0.14.0.tgz#fc572851c7b5096942ce9b1fdad18d5a72e520b5"
   dependencies:
     babel-runtime "^6.22.0"
     cemento "^0.7.0"
@@ -1326,6 +1375,16 @@ right-align@^0.1.1:
   dependencies:
     align-text "^0.1.1"
 
+scrivi@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/scrivi/-/scrivi-0.2.0.tgz#f92ed372d255491672dd436c43daf3d9871d2986"
+  dependencies:
+    falzy "^0.10.0"
+    kept "^0.10.0"
+    letgo "^0.17.0"
+    protype "^0.11.0"
+    zelf "^0.6.0"
+
 segway@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/segway/-/segway-0.9.0.tgz#85cf3f0ab60eb28cbb04974f6aa98d0ae1d7f7c4"
@@ -1342,6 +1401,16 @@ segway@^0.9.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
 
+servcon@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/servcon/-/servcon-0.2.0.tgz#57f3fe5431c9ed329dde6f89acb5fa880704403f"
+  dependencies:
+    harden "^0.14.0"
+    protype "^0.14.0"
+    truly "^0.9.0"
+    truu "^0.7.0"
+    yargs "^6.6.0"
+
 set-blocking@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
@@ -1354,6 +1423,15 @@ shardize@^0.4.0:
     falzy "^0.5.0"
     harden "^0.7.0"
     protype "^0.4.0"
+
+shardize@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/shardize/-/shardize-0.8.0.tgz#8d114aa6d449749658d0b437d26e2462bfe2d1f1"
+  dependencies:
+    babel-runtime "^6.22.0"
+    disdo "^0.6.0"
+    falzy "^0.10.0"
+    protype "^0.11.0"
 
 snapd@^0.13.0:
   version "0.13.0"
@@ -1386,13 +1464,19 @@ snapd@^0.9.0:
     protype "^0.8.0"
     zelf "^0.4.0"
 
+"source-map-support@0.3.2 - 1.0.0":
+  version "0.4.11"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.11.tgz#647f939978b38535909530885303daf23279f322"
+  dependencies:
+    source-map "^0.5.3"
+
 source-map@^0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.4.4.tgz#eba4f5da9c0dc999de68032d8b4f76173652036b"
   dependencies:
     amdefine ">=0.0.4"
 
-source-map@~0.5.1:
+source-map@^0.5.3, source-map@~0.5.1:
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
 
@@ -1486,6 +1570,15 @@ titlelize@^0.7.0:
     falzy "^0.10.0"
     harden "^0.14.0"
     protype "^0.11.0"
+
+touche@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/touche/-/touche-0.1.0.tgz#1faad3f594bcd61973c20cae9921002f13c6f72c"
+  dependencies:
+    falzy "^0.10.0"
+    letgo "^0.17.0"
+    protype "^0.11.0"
+    zelf "^0.6.0"
 
 transpher@0.0.0:
   version "0.0.0"

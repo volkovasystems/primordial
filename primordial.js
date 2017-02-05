@@ -46,58 +46,114 @@
 
 	@module-documentation:
 		Default index for starting server based on standard practice.
+
+		Never change this!
+		This will always do 2 things
+		1. Initialize options and dependencies.
+		2. Start server through the load file.
 	@end-module-documentation
 
 	@include:
 		{
 			"child": "child_process",
+			"falze": "falze",
+			"falzy": "falzy",
 			"fs": "fs-extra",
 			"kept": "kept",
-			"path": "path",
 			"Olivant": "olivant",
-			"util": "util",
-			"yargs": "yargs"
+			"path": "path",
+			"persy": "persy",
+			"shardize": "shardize",
+			"servcon": "servcon",
+			"snapd": "snapd",
+			"touche": "touche",
+			"truly": "truly",
+			"truu": "truu",
+			"yarg": "yargs"
 		}
 	@end-include
 */
+require( "olivant" );
 
 const child = require( "child_process" );
 const falze = require( "falze" );
+const falzy = require( "falzy" );
 const fs = require( "fs-extra" );
 const kept = require( "kept" );
-const path 	= require( "path" );
-const Olivant = require( "olivant" );
-const util = require( "util" );
-const yargs = require( "yargs" );
+const path = require( "path" );
+const persy = require( "persy" );
+const shardize = require( "shardize" );
+const servcon = require( "servcon" );
+const snapd = require( "snapd" );
+const touche = require( "touche" );
+const truly = require( "truly" );
+const truu = require( "truu" );
+const yarg = require( "yargs" );
 
+/*;
+	@option:
+		{
+			"package": "package.json",
+			"rootPath": "process.cwd( )"
+		}
+	@end-option
+*/
 const primordial = function primordial( option ){
+	/*;
+		@meta-configuration:
+			{
+				"option:required": "object"
+			}
+		@end-meta-configuration
+	*/
+
 	option = option || { };
 
 	let box = option.package;
-
 	if( falze( box ) ){
-		Fatal( "no package given" )
+		Fatal( "configuration is empty" )
 			.remind( "process exiting" );
 
 		return;
 	}
 
-	if( falze( box.homepage ) ){
+	box.option = box.option || { };
+
+	let rootPath = option.rootPath || box.option.rootPath || process.cwd( );
+	box.option.rootPath = rootPath;
+
+	if( falzy( box.homepage ) ){
 		Warning( "no home page specified" )
 			.silence( )
 			.prompt( );
 	}
 
-	if( falze( box.shell ) ){
+	if( falzy( box.option.shell ) ){
 		Warning( "no shell command specified" )
+			.remind( "reusing project name as shell namespace" )
 			.silence( )
 			.prompt( );
+
+		box.option.shell = shardize( box.name );
 	}
 
-	let argv = yargs
-		.epilogue( "For more information go to, ${ box.homepage }" )
+	Prompt( "You are working under", rootPath )
+		.remind( "Please make sure this is the correct directory" );
 
-		.usage( "Usage: ${ box.shell } <command> <type> <level> [option]" )
+	let boxPath = path.resolve( rootPath, "package.json" );
+	if( !kept( boxPath, true ) ){
+		Fatal( "configuration file does not exists" )
+			.remind( "process exiting" );
+
+		return;
+	}
+
+	let parameter = yarg
+		.epilogue( ( box.homepage )?
+			`For more information go to, ${ box.homepage }` :
+			"Please read usage and examples carefully." )
+
+		.usage( `Usage: ${ box.option.shell } <command> <type> <level> [option]` )
 
 		.command( "run <type> <level> [service]",
 			"Run specific app type on specific deployment level." )
@@ -158,81 +214,130 @@ const primordial = function primordial( option ){
 
 		.argv;
 
-	argv.command = argv._[ 0 ];
+	let token = parameter._;
+	parameter.command = token[ 0 ];
 
-	if( argv.command == "initialize" ){
-		if( !( box.local || { } ).template ){
-			Warning( "local template directory not specified" )
-				.remind( "using default local template directory path" )
+	if( parameter.command === "initialize" ){
+		if( falzy( box.option.meta ) ){
+			Warning( "local meta directory not specified" )
+				.remind( "using default local meta directory path" )
 				.silence( )
 				.prompt( );
 
-			box.local = box.local || { };
-
-			box.local.template = "server/_local";
+			box.option.meta = "server/meta";
 		}
 
-		if( !( box.local || { } ).directory ){
+		if( falzy( box.option.local ) ){
 			Warning( "local directory not specified" )
 				.remind( "using default local directory path" )
 				.silence( )
 				.prompt( );
 
-			box.local = box.local || { };
-
-			box.local.directory = "server/local";
+			box.option.local = "server/local";
 		}
 
-		let templateDirectory = path.resolve( process.cwd( ), "${ box.local.template }" );
+		let metaDirectory = path.resolve( rootPath, box.option.meta );
+		let metaOption = path.resolve( metaDirectory, "option.json" );
+		let metaConstant = path.resolve( metaDirectory, "constant.json" );
 
-		let localDirectory = path.resolve( process.cwd( ), "${ box.local.directory }" );
+		if( !kept( metaDirectory, true ) ){
+			Prompt( "meta directory does not exists" )
+				.remind( "creating meta directory" );
 
-		let localOption = path.resolve( localDirectory, "_option.js" );
+			fs.mkdirpSync( metaDirectory );
+		}
 
-		let localConstant = path.resolve( localDirectory, "_constant.js" );
+		if( !kept( metaOption, true ) ){
+			touche( metaOption, true );
 
-		let templateOption = path.resolve( templateDirectory, "_option.js" );
+			persy( metaOption, {
+				"local": { },
+				"staging": { },
+				"production": { }
+			}, true );
+		}
 
-		let templateConstant = path.resolve( templateDirectory, "_constant.js" );
+		if( !kept( metaConstant, true ) ){
+			touche( metaConstant, true );
 
-		if( kept( localOption, true ) &&
-			kept( localConstant, true ) )
-		{
+			persy( metaConstant, { }, true );
+		}
+
+		let localDirectory = path.resolve( rootPath, box.option.local );
+		let localOption = path.resolve( localDirectory, "option.json" );
+		let localConstant = path.resolve( localDirectory, "constant.json" );
+
+		if( !kept( localDirectory, true ) ){
+			Prompt( "local directory does not exists" )
+				.remind( "creating local directory" );
+
+			fs.mkdirpSync( localDirectory );
+		}
+
+		if( kept( localOption, true ) && kept( localConstant, true ) ){
 			Prompt( "local configuration has been initialized" )
 				.remind( "process exiting" );
 
 			return;
+		}
 
-		}else if( kept( templateOption, true ) &&
-			kept( templateConstant, true ) )
-		{
-			if( !kept( localDirectory, true ) ){
-				fs.mkdirpSync( localDirectory );
-			}
+		let optionData = require( metaOption );
+		let defaultConstant = servcon( optionData );
 
-			fs.copySync( templateDirectory, localDirectory );
+		let constantData = require( metaConstant );
+		for( let property in defaultConstant ){
+			constantData[ property ] = constantData[ property ] || defaultConstant[ property ];
+		}
 
-			Prompt( "local configuration initialized" )
+		try{
+			touche( localOption, true );
+
+			persy( localOption, optionData, true );
+
+		}catch( error ){
+			Fatal( error )
+				.remind( "cannot transfer local option" )
 				.remind( "process exiting" );
-
-		}else{
-			Warning( "local template configuraton does not exists" )
-				.prompt( "process exiting" );
 
 			return;
 		}
 
-	}else if( argv.command == "run" &&
-		argv.type == "server" )
-	{
-		if( !( box.load || { } ).file ){
+		try{
+			touche( localConstant, true );
+
+			persy( localConstant, constantData, true );
+
+		}catch( error ){
+			Fatal( error )
+				.remind( "cannot transfer local constant" )
+				.remind( "process exiting" );
+
+			return;
+		}
+
+		try{
+			persy( boxPath, box, true );
+
+		}catch( error ){
+			Fatal( error )
+				.remind( "cannot save configuration" )
+				.remind( "process exiting" );
+
+			return;
+		}
+
+		Prompt( "local configuration initialized" )
+			.remind( "process exiting" );
+
+	}else if( parameter.command === "run" && parameter.type === "server" ){
+		if( falzy( box.option.load ) ){
 			Fatal( "no load file specified" )
 				.remind( "process exiting" );
 
 			return;
 		}
 
-		let loadFile = path.resolve( process.cwd( ), box.load.file );
+		let loadFile = path.resolve( rootPath, box.option.load );
 		if( !kept( loadFile, true ) ){
 			Fatal( "load file does not exists", loadFile )
 				.remind( "process exiting" );
@@ -240,35 +345,42 @@ const primordial = function primordial( option ){
 			return;
 		}
 
-		argv[ argv.level ] = true;
+		parameter[ parameter.level ] = true;
 
 		let nodeEngine = "node";
-		if( falze( box.nodeVersion ) ){
-			nodeEngine = `n use ${ box.nodeVersion }`;
+		if( truu( box.engines ) &&
+			truly( box.engines.node ) &&
+			( /^\d+?\.\d+?\.\d+?$/ ).test( box.engines.node ) )
+		{
+			nodeEngine = `n use ${ box.engines.node }`;
 		}
 
-		let command = `${ nodeEngine } ${ loadFile } --${ argv.level || "local" }`;
+		let command = `${ nodeEngine } ${ loadFile } --${ parameter.level || "local" }`;
 
-		process.env.NODE_ENV = argv.level;
+		process.env.NODE_ENV = parameter.level;
 
-		if( argv.service ){
-			command = `${ command } --service=${ argv.service }`;
+		if( truly( parameter.service ) ){
+			command = `${ command } --service=${ parameter.service }`;
 		}
 
-		Prompt( "node server process started", argv.level );
+		Prompt( "running", command );
 
-		try{
-			child.execSync( command, {
-				"stdio": "inherit",
-				"cwd": process.cwd( ),
-				"env": process.env
-			} );
+		Prompt( "node server process started", parameter.level );
 
-		}catch( error ){
-			Issue( "error encountered running application", error )
-				.silence( )
-				.prompt( );
-		}
+		snapd( function delay( ){
+			try{
+				child.execSync( command, {
+					"stdio": "inherit",
+					"cwd": rootPath,
+					"env": process.env
+				} );
+
+			}catch( error ){
+				Issue( "error encountered running application", error )
+					.silence( )
+					.prompt( );
+			}
+		} );
 	}
 };
 

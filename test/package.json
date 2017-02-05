@@ -1,0 +1,16 @@
+{
+	"name": "test",
+	"version": "0.0.0",
+	"license": "MIT",
+	"bin": {
+		"test": "./test.js"
+	},
+	"homepage": "https://github.com/volkovasystems/primordial#readme",
+	"option": {
+		"shell": "test",
+		"load": "./index.js",
+		"rootPath": "/home/richeve/vs/primordial/test",
+		"meta": "server/meta",
+		"local": "server/local"
+	}
+}
