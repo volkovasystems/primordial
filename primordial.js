@@ -82,13 +82,17 @@ const fs = require( "fs-extra" );
 const kept = require( "kept" );
 const path = require( "path" );
 const persy = require( "persy" );
+const redupe = require( "redupe" );
 const shardize = require( "shardize" );
 const servcon = require( "servcon" );
+const servopt = require( "servopt" );
 const snapd = require( "snapd" );
 const touche = require( "touche" );
 const truly = require( "truly" );
 const truu = require( "truu" );
 const yarg = require( "yargs" );
+
+const VERSION_PATTERN = /^\d+?\.\d+?\.\d+?$/;
 
 /*;
 	@option:
@@ -160,6 +164,8 @@ const primordial = function primordial( option ){
 
 		.command( "initialize", "Initialize the project." )
 
+		.command( "transfer", "Transfer configuration." )
+
 		.option( "type", {
 			"alias": "t",
 			"describe": "Server or client type application",
@@ -191,6 +197,9 @@ const primordial = function primordial( option ){
 
 		.example( "$0 initialize",
 			"Install necessary dependencies." )
+
+		.example( "$0 transfer",
+			"Transfer configuration from meta to local." )
 
 		.example( "$0 run server local",
 			"Run the server application on local mode." )
@@ -250,11 +259,7 @@ const primordial = function primordial( option ){
 		if( !kept( metaOption, true ) ){
 			touche( metaOption, true );
 
-			persy( metaOption, {
-				"local": { },
-				"staging": { },
-				"production": { }
-			}, true );
+			persy( metaOption, servopt( ), true );
 		}
 
 		if( !kept( metaConstant, true ) ){
@@ -281,35 +286,33 @@ const primordial = function primordial( option ){
 			return;
 		}
 
-		let optionData = require( metaOption );
-		let defaultConstant = servcon( optionData );
-
-		let constantData = require( metaConstant );
-		for( let property in defaultConstant ){
-			constantData[ property ] = constantData[ property ] || defaultConstant[ property ];
-		}
+		let initialOption = servopt( require( metaOption ) );
 
 		try{
 			touche( localOption, true );
 
-			persy( localOption, optionData, true );
+			persy( localOption, initialOption, true );
 
 		}catch( error ){
 			Fatal( error )
-				.remind( "cannot transfer local option" )
+				.remind( "cannot initialize local option" )
 				.remind( "process exiting" );
 
 			return;
 		}
 
+		let defaultConstant = servcon( initialOption );
+
+		let initialConstant = redupe( require( metaConstant ), defaultConstant, true );
+
 		try{
 			touche( localConstant, true );
 
-			persy( localConstant, constantData, true );
+			persy( localConstant, initialConstant, true );
 
 		}catch( error ){
 			Fatal( error )
-				.remind( "cannot transfer local constant" )
+				.remind( "cannot initialize local constant" )
 				.remind( "process exiting" );
 
 			return;
@@ -327,6 +330,164 @@ const primordial = function primordial( option ){
 		}
 
 		Prompt( "local configuration initialized" )
+			.remind( "process exiting" );
+
+	}else if( parameter.command == "transfer" ){
+		if( falzy( box.option.meta ) ){
+			Fatal( "local meta directory not specified" )
+				.remind( "cannot transfer data" )
+				.remind( "process exiting" )
+				.silence( );
+
+			return;
+		}
+
+		if( falzy( box.option.local ) ){
+			Fatal( "local directory not specified" )
+				.remind( "cannot transfer data" )
+				.remind( "process exiting" )
+				.silence( );
+
+			return;
+		}
+
+		let metaDirectory = path.resolve( rootPath, box.option.meta );
+		let metaOption = path.resolve( metaDirectory, "option.json" );
+		let metaConstant = path.resolve( metaDirectory, "constant.json" );
+
+		if( !kept( metaDirectory, true ) ){
+			Fatal( "meta directory does not exists" )
+				.remind( "cannot transfer data" )
+				.remind( "process exiting" )
+				.silence( );
+
+			return;
+		}
+
+		if( !kept( metaOption, true ) ){
+			Fatal( "meta option does not exists" )
+				.remind( "cannot transfer data" )
+				.remind( "process exiting" )
+				.silence( );
+
+			return;
+		}
+
+		if( !kept( metaConstant, true ) ){
+			Fatal( "meta constant does not exists" )
+				.remind( "cannot transfer data" )
+				.remind( "process exiting" )
+				.silence( );
+
+			return;
+		}
+
+		let initialOption = { };
+		try{
+			initialOption = require( metaOption );
+
+		}catch( error ){
+			Fatal( error )
+				.remind( "cannot load meta option" )
+				.remind( "cannot transfer data" )
+				.remind( "process exiting" );
+
+			return;
+		}
+
+		let initialConstant = { };
+		try{
+			initialConstant = require( metaConstant );
+
+		}catch( error ){
+			Fatal( error )
+				.remind( "cannot load meta constant" )
+				.remind( "cannot transfer data" )
+				.remind( "process exiting" );
+
+			return;
+		}
+
+		let localDirectory = path.resolve( rootPath, box.option.local );
+		let localOption = path.resolve( localDirectory, "option.json" );
+		let localConstant = path.resolve( localDirectory, "constant.json" );
+
+		if( !kept( localDirectory, true ) ){
+			Fatal( "local directory does not exists" )
+				.remind( "cannot transfer data" )
+				.remind( "process exiting" )
+				.silence( );
+
+			return;
+		}
+
+		if( !kept( localOption, true ) ){
+			Fatal( "local option does not exists" )
+				.remind( "cannot transfer data" )
+				.remind( "process exiting" )
+				.silence( );
+
+			return;
+		}
+
+		if( !kept( localConstant, true ) ){
+			Fatal( "local constant does not exists" )
+				.remind( "cannot transfer data" )
+				.remind( "process exiting" )
+				.silence( );
+
+			return;
+		}
+
+		try{
+			var customOption = require( localOption );
+
+		}catch( error ){
+			Fatal( error )
+				.remind( "cannot read local option" );
+				.remind( "cannot transfer local option" )
+				.remind( "process exiting" );
+		}
+
+		customOption = redupe( customOption, initialOption, true );
+
+		try{
+			persy( localOption, customOption, true );
+
+		}catch( error ){
+			Fatal( error )
+				.remind( "cannot transfer local option" )
+				.remind( "process exiting" );
+
+			return;
+		}
+
+		let defaultConstant = servcon( customOption );
+
+		try{
+			var customConstant = require( localConstant );
+
+		}catch( error ){
+			Fatal( error )
+				.remind( "cannot read local constant" );
+				.remind( "cannot transfer local constant" )
+				.remind( "process exiting" );
+		}
+
+		customConstant = redupe( customConstant, initialConstant, defaultConstant, true );
+
+		try{
+			persy( localConstant, customConstant, true );
+
+		}catch( error ){
+			Fatal( error )
+				.remind( "cannot transfer local constant" )
+				.remind( "process exiting" );
+
+			return;
+		}
+
+		Prompt( "local configuration transferred" )
 			.remind( "process exiting" );
 
 	}else if( parameter.command === "run" && parameter.type === "server" ){
@@ -350,7 +511,7 @@ const primordial = function primordial( option ){
 		let nodeEngine = "node";
 		if( truu( box.engines ) &&
 			truly( box.engines.node ) &&
-			( /^\d+?\.\d+?\.\d+?$/ ).test( box.engines.node ) )
+			VERSION_PATTERN.test( box.engines.node ) )
 		{
 			nodeEngine = `n use ${ box.engines.node }`;
 		}

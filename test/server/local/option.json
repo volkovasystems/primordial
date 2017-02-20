@@ -1,0 +1,7 @@
+{
+	"local": {
+		"hello": "world"
+	},
+	"staging": {},
+	"production": {}
+}
