@@ -59,12 +59,15 @@
 			"falze": "falze",
 			"falzy": "falzy",
 			"fs": "fs-extra",
+			"gnaw": "gnaw",
 			"kept": "kept",
 			"Olivant": "olivant",
 			"path": "path",
 			"persy": "persy",
+			"redupe": "redupe",
 			"shardize": "shardize",
 			"servcon": "servcon",
+			"servopt": "servopt",
 			"snapd": "snapd",
 			"touche": "touche",
 			"truly": "truly",
@@ -75,10 +78,10 @@
 */
 require( "olivant" );
 
-const child = require( "child_process" );
 const falze = require( "falze" );
 const falzy = require( "falzy" );
 const fs = require( "fs-extra" );
+const gnaw = require( "gnaw" );
 const kept = require( "kept" );
 const path = require( "path" );
 const persy = require( "persy" );
@@ -444,12 +447,12 @@ const primordial = function primordial( option ){
 
 		}catch( error ){
 			Fatal( error )
-				.remind( "cannot read local option" );
+				.remind( "cannot read local option" )
 				.remind( "cannot transfer local option" )
 				.remind( "process exiting" );
 		}
 
-		customOption = redupe( customOption, initialOption, true );
+		customOption = redupe( customOption, initialOption );
 
 		try{
 			persy( localOption, customOption, true );
@@ -469,12 +472,12 @@ const primordial = function primordial( option ){
 
 		}catch( error ){
 			Fatal( error )
-				.remind( "cannot read local constant" );
+				.remind( "cannot read local constant" )
 				.remind( "cannot transfer local constant" )
 				.remind( "process exiting" );
 		}
 
-		customConstant = redupe( customConstant, initialConstant, defaultConstant, true );
+		customConstant = redupe( customConstant, initialConstant, defaultConstant );
 
 		try{
 			persy( localConstant, customConstant, true );
@@ -530,11 +533,11 @@ const primordial = function primordial( option ){
 
 		snapd( function delay( ){
 			try{
-				child.execSync( command, {
+				gnaw( command, {
 					"stdio": "inherit",
 					"cwd": rootPath,
 					"env": process.env
-				} );
+				}, true );
 
 			}catch( error ){
 				Issue( "error encountered running application", error )

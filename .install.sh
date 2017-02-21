@@ -2,6 +2,7 @@ yarn add \
 falze \
 falzy \
 fs-extra \
+gnaw \
 kept \
 olivant \
 persy \
