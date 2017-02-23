@@ -1,10 +1,10 @@
 {
   "name": "primordial",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Default index for starting server based on standard practice.",
   "main": "primordial.js",
   "scripts": {
-    "preinstall": "yarn global add n && n lts",
+    "preinstall": "npm install n --global && n lts",
     "test": "mocha primordial-test.js"
   },
   "repository": {
