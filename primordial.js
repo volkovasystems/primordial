@@ -126,8 +126,7 @@ const primordial = function primordial( option ){
 
 	box.option = box.option || { };
 
-	let rootPath = option.rootPath || box.option.rootPath || process.cwd( );
-	box.option.rootPath = rootPath;
+	let rootPath = option.rootPath || process.cwd( );
 
 	if( falzy( box.homepage ) ){
 		Warning( "no home page specified" )

@@ -9,7 +9,6 @@
 	"option": {
 		"shell": "test",
 		"load": "./index.js",
-		"rootPath": "/home/richeve/vs/primordial/test",
 		"meta": "server/meta",
 		"local": "server/local"
 	}
