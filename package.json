@@ -35,7 +35,7 @@
     "olivant": "^0.23.0",
     "persy": "^0.7.0",
     "redupe": "^0.5.0",
-    "servcon": "^0.6.0",
+    "servcon": "^0.8.0",
     "servopt": "^0.4.0",
     "shardize": "^0.14.0",
     "snapd": "^0.19.0",
